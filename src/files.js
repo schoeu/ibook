@@ -1,3 +1,8 @@
+/**
+ * @file files.js
+ * @description 有关于文件操作的逻辑
+ * @author schoeu
+ * */
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');

@@ -5,9 +5,8 @@
  * */
 
 const path = require('path');
-const config = require('./src/config');
-
-config.init(path.join(__dirname, './config.json'));
 
 // 获取配置信息
-var mdb = require('./src/index');
+var Mdb = require('./src/index');
+var Mb = new Mdb(path.join(__dirname, './config.json'));
+console.log(Mb);

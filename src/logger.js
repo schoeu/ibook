@@ -4,24 +4,24 @@
  * @author schoeu
  * */
 
-var fs = require('fs-extra');
-var path = require('path');
-var winston = require('winston');
-var moment = require('moment');
-var DailyRotateFile = require('winston-daily-rotate-file');
+const fs = require('fs-extra');
+const path = require('path');
+const winston = require('winston');
+const moment = require('moment');
+const DailyRotateFile = require('winston-daily-rotate-file');
 
-var config = require('./config');
+const config = require('./config');
 
-var MAX_SIZE = 1024 * 1024 * 5;
-var ACCESS_LOG_NAME = 'access.log';
-var ERROR_LOG_NAME = 'error.log';
+const maxSize = 1024 * 1024 * 5;
+const accessLogName = 'access.log';
+const errorLogName = 'error.log';
 
 // 时间格式化方法
-var dateFormat = function () {
+const dateFormat = function () {
     return moment().format('YYYY-MM-DD HH:mm:ss:SSS');
 };
 
-var loggerPath = config.get('logPath');
+let loggerPath = config.get('logPath');
 // 日志文件设置,如果是绝对路径,则使用绝对路径, 如果是相对路径,则计算出最终路径
 if (!path.isAbsolute(loggerPath)) {
     loggerPath = path.join(process.cwd(), loggerPath);
@@ -30,25 +30,25 @@ if (!path.isAbsolute(loggerPath)) {
 // 没有该目录则创建
 fs.mkdirsSync(loggerPath);
 
-var accesslog = path.join(loggerPath, ACCESS_LOG_NAME);
-var errorlog = path.join(loggerPath, ERROR_LOG_NAME);
+const accesslog = path.join(loggerPath, accessLogName);
+const errorlog = path.join(loggerPath, errorLogName);
 
-var accessLoggerTransport = new DailyRotateFile({
+const accessLoggerTransport = new DailyRotateFile({
     name: 'access',
     filename: accesslog,
     timestamp: dateFormat,
     level: config.get('logLevel'),
     colorize: true,
-    maxsize: MAX_SIZE,
+    maxsize: maxSize,
     datePattern: '.yyyy-MM-dd'
 });
-var errorTransport = new DailyRotateFile({
+const errorTransport = new DailyRotateFile({
     name: 'error',
     filename: errorlog,
     timestamp: dateFormat,
     level: 'error',
     colorize: true,
-    maxsize: MAX_SIZE,
+    maxsize: maxSize,
     datePattern: '.yyyy-MM-dd'
 });
 

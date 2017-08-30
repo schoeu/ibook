@@ -1,3 +1,11 @@
+/**
+ * @file markdown.js
+ * @description markdown处理逻辑
+ * @author schoeu
+ * */
+const logger = require('./logger.js');
+const config = require('./config');
+
 module.exports = {
     /**
      * 处理mardown文档请求
@@ -7,21 +15,21 @@ module.exports = {
      * @param {Function} next 相应对象
      * */
     mdHandler: function (req, res, next) {
-        var me = this;
-        var headers = req.headers;
-        var ua = headers['user-agent'] || '';
-        var time = Date.now();
+        let me = this;
+        let headers = req.headers;
+        let ua = headers['user-agent'] || '';
+        let time = Date.now();
 
-        var relativePath = url.parse(req.originalUrl);
-        var pathName = relativePath.pathname || '';
-        var mdPath = path.join(config.get('path'), pathName);
-        var isPjax = headers['x-pjax'] === 'true';
+        let relativePath = url.parse(req.originalUrl);
+        let pathName = relativePath.pathname || '';
+        let mdPath = path.join(config.get('path'), pathName);
+        let isPjax = headers['x-pjax'] === 'true';
         mdPath = decodeURIComponent(mdPath);
         fs.readFile(mdPath, 'utf8', function (err, file) {
-            var content = '';
+            let content = '';
             if (file) {
                 // 请求页面是否在缓存中
-                var hasCache = cache.has(pathName);
+                let hasCache = cache.has(pathName);
 
                 if (hasCache) {
                     content = cache.get(pathName);
@@ -35,18 +43,19 @@ module.exports = {
                 }
 
                 // 编辑页逻辑
-                var editPath =  editPathRoot ? editPathRoot + pathName : '';
+                let editPath =  editPathRoot ? editPathRoot + pathName : '';
 
                 // 判断是pjax请求则返回html片段
                 if (isPjax) {
-                    var rsPjaxDom = utils.getPjaxContent(pathName, content, editPath);
+                    let rsPjaxDom = utils.getPjaxContent(pathName, content, editPath);
                     res.end(rsPjaxDom);
                 }
                 // 否则返回整个模板
                 else {
-                    var parseObj = Object.assign(
+                    let parseObj = Object.assign(
                         {}, me.locals,
-                        {navData: htmlStr,
+                        {
+                            navData: htmlStr,
                             mdData: content,
                             editPath: editPath
                         });
@@ -64,7 +73,7 @@ module.exports = {
             // 如果找不到文件,则返回错误提示页
             else if (err) {
                 // 错误页面
-                var errPg = utils.compilePre('error', {errorType: errorType.notfound});
+                let errPg = utils.compilePre('error', {errorType: notfound});
 
                 // 判断是pjax请求则返回html片段
                 if (isPjax) {
@@ -72,7 +81,7 @@ module.exports = {
                 }
                 // 否则返回整个模板
                 else {
-                    var errPgObj = Object.assign({}, me.locals, {navData: htmlStr, mdData: errPg});
+                    let errPgObj = Object.assign({}, me.locals, {navData: htmlStr, mdData: errPg});
                     res.render('main', errPgObj);
                 }
                 logger.error(err);
