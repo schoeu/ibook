@@ -99,5 +99,14 @@ module.exports = {
             return titleArr[1] || '';
         }
         return '';
+    },
+
+    /**
+     * 获取菜单配置
+     *
+     * @return {Array} 标题字符串数组
+     * */
+    getMenusInfo () {
+        return config.get('menus') || [];
     }
 };

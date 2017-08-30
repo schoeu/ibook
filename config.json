@@ -2,6 +2,22 @@
   "path": "/Users/memee/Downloads/svn/ps-fe-new",
   "ignoreDir": ["img"],
   "port": 8910,
+  "menus": [{
+    "name": "首页",
+    "url": "/main"
+  },{
+    "name": "设计",
+    "url": "/design"
+  },{
+    "name": "开发",
+    "url": "/dev"
+  },{
+    "name": "动效",
+    "url": "/animate"
+  },{
+    "name": "支持",
+    "url": "/support"
+  }],
   "dirNames":[
     {"aladdin": {
       "name": "阿拉丁",

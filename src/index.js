@@ -7,10 +7,9 @@ const dirNames = config.get('dirNames');
 
 const app = new Koa();
 app.use(ctx => {
-    ctx.body = 'h1';
-
     var filtRs = files.walker(filePath, dirNames);
-    console.log(filtRs);
+    var flieInfos = Object.assign({}, filtRs, {menus: files.getMenusInfo()});
+    ctx.body = JSON.stringify(flieInfos);
 });
 
 app.listen(port);
