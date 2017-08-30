@@ -1,0 +1,29 @@
+{
+  "name": "markdown-book",
+  "version": "0.0.1",
+  "description": "markdown platform.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schoeu/markdown-book.git"
+  },
+  "keywords": [
+    "markdown"
+  ],
+  "author": "schoeu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/schoeu/markdown-book/issues"
+  },
+  "homepage": "https://github.com/schoeu/markdown-book#readme",
+  "dependencies": {
+    "fs-extra": "^4.0.1",
+    "koa": "^2.3.0",
+    "moment": "^2.18.1",
+    "winston": "^2.3.1",
+    "winston-daily-rotate-file": "^1.4.6"
+  }
+}
