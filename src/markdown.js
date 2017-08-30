@@ -3,10 +3,40 @@
  * @description markdown处理逻辑
  * @author schoeu
  * */
+const fs = require('fs-extra');
+const path = require('path');
 const logger = require('./logger.js');
 const config = require('./config');
+const lru = require('lru-cache');
+const cache = lru({max: 500});
+var highlight = require('highlight.js');
+var marked = require('marked');
+var renderer = new marked.Renderer();
+
+// markdown中渲染代码高亮处理
+marked.setOptions({
+    highlight: function (code, lang) {
+        return highlight.highlightAuto(code).value;
+    }
+});
+
+// 定制markdown head
+renderer.heading = function (text, level) {
+    return '<h' + level + ' id="' + encodeURIComponent(text) + '">' + text + '</h' + level + '>';
+};
 
 module.exports = {
+
+    /**
+     * markdown文件转html处理
+     *
+     * @param {string} content markdown字符串
+     * @return {string} html字符串
+     * */
+    getMarked: function (content) {
+        return marked(content, {renderer: renderer});
+    },
+
     /**
      * 处理mardown文档请求
      *
@@ -36,18 +66,15 @@ module.exports = {
                 }
                 else  {
                     // markdown转换成html
-                    content = utils.getMarked(file.toString());
+                    content = me.getMarked(file.toString());
 
                     // 有内容才缓存
                     content && cache.set(pathName, content);
                 }
 
-                // 编辑页逻辑
-                let editPath =  editPathRoot ? editPathRoot + pathName : '';
-
                 // 判断是pjax请求则返回html片段
                 if (isPjax) {
-                    let rsPjaxDom = utils.getPjaxContent(pathName, content, editPath);
+                    let rsPjaxDom = utils.getPjaxContent(pathName, content, '');
                     res.end(rsPjaxDom);
                 }
                 // 否则返回整个模板
