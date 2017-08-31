@@ -1,34 +1,28 @@
 {
-  "name": "markdown-book",
-  "version": "0.0.1",
+  "name": "ibook",
+  "version": "1.0.1",
   "description": "markdown platform.",
-  "main": "index.js",
+  "main": "/src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/schoeu/markdown-book.git"
+    "url": "git+https://github.com/schoeu/ibook.git"
   },
   "keywords": [
-    "markdown"
+    "file",
+    "info"
   ],
   "author": "schoeu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/schoeu/markdown-book/issues"
+    "url": "https://github.com/schoeu/ibook/issues"
   },
-  "homepage": "https://github.com/schoeu/markdown-book#readme",
+  "homepage": "https://github.com/schoeu/ibook#readme",
   "dependencies": {
     "fs-extra": "^4.0.1",
-    "highlight.js": "^9.12.0",
     "koa": "^2.3.0",
-    "koa-router": "^7.2.1",
-    "lru-cache": "^4.1.1",
-    "marked": "^0.3.6",
-    "moment": "^2.18.1",
-    "nodemailer": "^4.1.0",
-    "winston": "^2.3.1",
-    "winston-daily-rotate-file": "^1.4.6"
+    "koa-router": "^7.2.1"
   }
 }

@@ -9,7 +9,7 @@ const fs = require('fs-extra');
 let confCahe = '';
 
 module.exports = {
-    init: function (conf) {
+    init(conf) {
         let me = this;
 
         conf = conf || '';
@@ -21,23 +21,7 @@ module.exports = {
 
         // 默认配置,减少配置文件条目数,增加易用性与容错
         let defaultOptions = {
-            logPath: './log',
-            dirsConfName: 'map.json',
-            port: '8910',
-            logLevel: 'info',
-            index: '/readme.md',
-            theme: 'default',
-            preprocessScript: '',
-            searchConf: {
-                matchDeep: 2,
-                matchWidth: 120
-            },
             path: path.dirname(conf),
-            extUrls: {},
-            waringFlag: false,
-            debug: true,
-            usePinyin: true,
-            ignoreDir: []
         };
 
         if (!path.isAbsolute(conf)) {
@@ -53,14 +37,14 @@ module.exports = {
         // 合并配置
         me.conf = Object.assign({}, defaultOptions, confJson);
     },
-    set: function (key, value) {
+    set(key, value) {
         if (this.conf && key) {
             this.conf[key] = value;
             return true;
         }
         return false;
     },
-    get: function (key) {
+    get(key) {
         if (this.conf && key) {
             let confItem = this.conf[key];
             if (confItem) {
@@ -69,7 +53,10 @@ module.exports = {
         }
         return '';
     },
-    refresh: function () {
+    getAll() {
+        return this.conf;
+    },
+    refresh() {
         this.init(confCahe);
     }
 };

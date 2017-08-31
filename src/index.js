@@ -1,6 +1,6 @@
 /**
  * @file index.js
- * @description markdown-book入口文件
+ * @description ibook入口文件
  * @author schoeu
  * */
 
@@ -18,6 +18,7 @@ module.exports = configPath => {
     app.listen(port);
     return {
         app,
-        router
+        router,
+        config: config.getAll()
     };
 };
