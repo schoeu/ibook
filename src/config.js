@@ -4,13 +4,13 @@
  * @author schoeu
  * */
 
-var path = require('path');
-var fs = require('fs-extra');
-var confCahe = '';
+const path = require('path');
+const fs = require('fs-extra');
+let confCahe = '';
 
 module.exports = {
     init: function (conf) {
-        var me = this;
+        let me = this;
 
         conf = conf || '';
         if (!conf.trim()) {
@@ -20,7 +20,7 @@ module.exports = {
         confCahe = conf;
 
         // 默认配置,减少配置文件条目数,增加易用性与容错
-        var defaultOptions = {
+        let defaultOptions = {
             logPath: './log',
             dirsConfName: 'map.json',
             port: '8910',
@@ -48,7 +48,7 @@ module.exports = {
         if (path.extname(conf).trim === '') {
             conf = path.join(conf, defaultOptions.dirsConfName);
         }
-        var confJson = fs.readJsonSync(conf);
+        let confJson = fs.readJsonSync(conf);
 
         // 合并配置
         me.conf = Object.assign({}, defaultOptions, confJson);
@@ -62,7 +62,7 @@ module.exports = {
     },
     get: function (key) {
         if (this.conf && key) {
-            var confItem = this.conf[key];
+            let confItem = this.conf[key];
             if (confItem) {
                 return confItem;
             }

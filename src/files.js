@@ -6,8 +6,8 @@
 const fs = require('fs');
 const path = require('path');
 const config = require('./config');
-const logger = require('./logger.js');
 module.exports = {
+
     /**
      * 获取文件目录树
      *
@@ -15,30 +15,30 @@ module.exports = {
      * @params {string} dirname 文档名称数据
      * @return {Object} 文件目录树
      * */
-    walker (dirs, dirname) {
-        var me = this;
-        var walkArr = [];
-        var dirnameMap = {};
-        var confDirname = dirname || [];
-        var ignorDor = []/*config.get('ignoreDir')*/;
+    walker(dirs, dirname) {
+        let me = this;
+        let walkArr = [];
+        let dirnameMap = {};
+        let confDirname = dirname || [];
+        let ignorDor = config.get('ignoreDir');
         docWalker(dirs, walkArr);
         function docWalker(dirs, dirCtt) {
-            var dirArr = fs.readdirSync(dirs);
+            let dirArr = fs.readdirSync(dirs);
             dirArr = dirArr || [];
-            dirArr.forEach((it) => {
-                var childPath = path.join(dirs, it);
-                var stat = fs.statSync(childPath);
-                var relPath = childPath.replace(config.get('path'), '');
+            dirArr.forEach(it => {
+                let childPath = path.join(dirs, it);
+                let stat = fs.statSync(childPath);
+                let relPath = childPath.replace(config.get('path'), '');
                 // 如果是文件夹就递归查找
                 if (stat.isDirectory()) {
 
                     // 如果是配置中忽略的目录,则跳过
                     if (ignorDor.indexOf(it) === -1) {
                         // 文件夹设置名称获取
-                        var crtName = it || '';
+                        let crtName = it || '';
 
-                        for (var index = 0, length = confDirname.length; index < length; index++) {
-                            var dnItems = confDirname[index];
+                        for (let index = 0, length = confDirname.length; index < length; index++) {
+                            let dnItems = confDirname[index];
                             if (dnItems[it]) {
                                 crtName = dnItems[it].name;
                                 dirnameMap[it] = crtName;
@@ -47,7 +47,7 @@ module.exports = {
                         }
 
                         // 如果没有配置文件夹目录名称,则不显示
-                        var childArr = [];
+                        let childArr = [];
                         dirCtt.push({
                             itemName: it,
                             type: 'dir',
@@ -61,8 +61,8 @@ module.exports = {
                 // 如果是文件
                 else {
                     if (/^\.md$|html$|htm$/i.test(path.extname(it))) {
-                        var basename = path.basename(it, path.extname(it));
-                        var title = me.getMdTitle(childPath);
+                        let basename = path.basename(it, path.extname(it));
+                        let title = me.getMdTitle(childPath);
                         dirCtt.push({
                             itemName: basename,
                             type: 'file',
@@ -75,8 +75,8 @@ module.exports = {
         }
 
         return {
-            walkArr: walkArr,
-            dirnameMap: dirnameMap
+            walkArr,
+            dirnameMap
         };
     },
 
@@ -86,14 +86,14 @@ module.exports = {
      * @params {string} dir markdown文件的路径
      * @return {string} markdown文件大标题
      * */
-    getMdTitle (dir) {
+    getMdTitle(dir) {
         if (!dir) {
             return '';
         }
-        var titleArr = [];
-        var ext = path.extname(dir);
+        let titleArr = [];
+        let ext = path.extname(dir);
         dir = decodeURIComponent(dir);
-        var content = fs.readFileSync(dir).toString();
+        let content = fs.readFileSync(dir).toString();
 
         if (ext === '.md') {
             titleArr =  /^\s*#+\s?([^#\r\n]+)/.exec(content) || [];
@@ -111,7 +111,7 @@ module.exports = {
      *
      * @return {Array} 标题字符串数组
      * */
-    getMenusInfo () {
+    getMenusInfo() {
         return config.get('menus') || [];
     }
 };

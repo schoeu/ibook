@@ -4,14 +4,15 @@
  * @author schoeu
  * */
 const fs = require('fs-extra');
+const url = require('url');
 const path = require('path');
 const logger = require('./logger.js');
 const config = require('./config');
 const lru = require('lru-cache');
 const cache = lru({max: 500});
-var highlight = require('highlight.js');
-var marked = require('marked');
-var renderer = new marked.Renderer();
+const highlight = require('highlight.js');
+const marked = require('marked');
+const renderer = new marked.Renderer();
 
 // markdown中渲染代码高亮处理
 marked.setOptions({
