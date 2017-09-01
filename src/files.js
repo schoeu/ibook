@@ -5,7 +5,7 @@
  * */
 const fs = require('fs');
 const path = require('path');
-const config = require('./config');
+
 module.exports = {
 
     /**
@@ -78,40 +78,5 @@ module.exports = {
             walkArr,
             dirnameMap
         };
-    },
-
-    /**
-     * 获取markdown文件大标题
-     *
-     * @params {string} dir markdown文件的路径
-     * @return {string} markdown文件大标题
-     * */
-    getMdTitle(dir) {
-        if (!dir) {
-            return '';
-        }
-        let titleArr = [];
-        let ext = path.extname(dir);
-        dir = decodeURIComponent(dir);
-        let content = fs.readFileSync(dir).toString();
-
-        if (ext === '.md') {
-            titleArr =  /^\s*#+\s?([^#\r\n]+)/.exec(content) || [];
-            return titleArr[1] || '';
-        }
-        else if (ext === '.html' || ext === '.htm') {
-            titleArr = /<title>(.+?)<\/title>/.exec(content) || [];
-            return titleArr[1] || '';
-        }
-        return '';
-    },
-
-    /**
-     * 获取菜单配置
-     *
-     * @return {Array} 标题字符串数组
-     * */
-    getMenusInfo() {
-        return config.get('menus') || [];
     }
 };
