@@ -9,6 +9,7 @@ const path = require('path');
 /**
  * 获取文件目录树
  *
+ * @config
  * @params {Object} config 遍历文档目录所需配置
  * @params {path} config.dirs 需要遍历的文档的路径
  * @params {Array} config.dirname 目录名字对应信息
@@ -24,6 +25,10 @@ module.exports = (config = {}) => {
 
     if (typeof dirs !== 'string') {
         throw new Error('please input valid dirs path.');
+    }
+
+    if (!path.isAbsolute(dirs)) {
+        dirs = path.join(process.cwd(), dirs);
     }
 
     docWalker(dirs, walkArr);

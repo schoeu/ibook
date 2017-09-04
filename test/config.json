@@ -1,0 +1,30 @@
+{
+  "path": "./test/testDir",
+  "ignoreDir": ["1_1"],
+  "port": 8910,
+  "menus": [{
+    "name": "首页",
+    "url": "/main"
+  },{
+    "name": "设计",
+    "url": "/design"
+  },{
+    "name": "开发",
+    "url": "/dev"
+  },{
+    "name": "动效",
+    "url": "/animate"
+  },{
+    "name": "支持",
+    "url": "/support"
+  }],
+  "dirNames":[
+    {"aladdin": {
+      "name": "阿拉丁",
+      "text": "之后可能扩展"
+    }},
+    {"www": {
+      "name": "搜索结果页"
+    }}
+  ]
+}
