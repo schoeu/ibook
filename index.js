@@ -5,7 +5,6 @@
  * */
 
 const os = require('os');
-const chalk = require('chalk');
 const Koa = require('koa');
 const Router = require('koa-router');
 const router = new Router();
@@ -21,7 +20,7 @@ module.exports = (config = {}) => {
     app.use(router.routes());
     app.use(router.allowedMethods());
     app.listen(port);
-    console.log('server listening on ', chalk.green(`http://${ip}:${port}`));
+    console.log(`server listening on http://${ip}:${port}`);
     return {
         app,
         router,
