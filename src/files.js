@@ -63,24 +63,31 @@ module.exports = (config = {}) => {
                         type: 'dir',
                         path: relPath,
                         displayName: crtName,
-                        child: childArr
+                        child: childArr,
+                        index: 10000
                     });
                     docWalker(childPath, childArr);
+                    childArr.sort(function (x, y) {
+                        return x.index >= y.index;
+                    });
                 }
             }
             // 如果是文件
             else {
                 if (/^\.md$|html$|htm$/i.test(path.extname(it))) {
                     let basename = path.basename(it, path.extname(it));
-                    let title = getMdTitle(childPath);
+                    let mdInfos = getMdInfos(childPath);
+                    let index =
                     dirCtt.push({
                         itemName: basename,
                         type: 'file',
+                        index: mdInfos.index,
                         path: relPath,
-                        title: title
+                        title: mdInfos.title
                     });
                 }
             }
+
         });
     }
 
@@ -91,27 +98,29 @@ module.exports = (config = {}) => {
 };
 
 /**
- * 获取markdown文件大标题
+ * 获取markdown文件信息
  *
  * @params {string} dir markdown文件的路径
  * @return {string} markdown文件大标题
  * */
-function getMdTitle(dir) {
+function getMdInfos(dir) {
     if (!dir) {
-        return '';
+        throw new Error ('Dir must be a path string.');
     }
-    let titleArr = [];
+    let titleArr;
     let ext = path.extname(dir);
     dir = decodeURIComponent(dir);
     let content = fs.readFileSync(dir).toString();
-
+    let indexInfo = /<!--\s*file-index\s*:\s*(\d+)?\s*-->/.exec(content) || [];
     if (ext === '.md') {
         titleArr =  /^\s*#+\s?([^#\r\n]+)/.exec(content) || [];
-        return titleArr[1] || '';
     }
     else if (ext === '.html' || ext === '.htm') {
         titleArr = /<title>(.+?)<\/title>/.exec(content) || [];
-        return titleArr[1] || '';
     }
-    return '';
+
+    return {
+        index: indexInfo[1] === undefined ? 10000 : +indexInfo[1],
+        title: titleArr[1] || ''
+    };
 }

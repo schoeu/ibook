@@ -1,6 +1,6 @@
 {
   "path": "./test/testDir",
-  "ignoreDir": ["1_1"],
+  "ignoreDir": ["1_2"],
   "port": 8910,
   "menus": [{
     "name": "首页",
