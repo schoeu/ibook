@@ -111,7 +111,9 @@ function getMdInfos(dir) {
     let ext = path.extname(dir);
     dir = decodeURIComponent(dir);
     let content = fs.readFileSync(dir).toString();
-    let indexInfo = /<!--\s*file-index\s*:\s*(\d+)?\s*-->/.exec(content) || [];
+
+    let indexInfo = /mdfile-index\s*:\s*(\d+)?\s*/.exec(content) || [];
+    let titleInfo = /mdfile-title\s*:\s*(\S+)?\s*-->/.exec(content) || [];
     if (ext === '.md') {
         titleArr =  /^\s*#+\s?([^#\r\n]+)/.exec(content) || [];
     }
@@ -121,6 +123,7 @@ function getMdInfos(dir) {
 
     return {
         index: indexInfo[1] === undefined ? 10000 : +indexInfo[1],
-        title: titleArr[1] || ''
+        // 优先自定义标题，其次取文档大标题
+        title: titleInfo[1] || titleArr[1] || ''
     };
 }
