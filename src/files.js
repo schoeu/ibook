@@ -77,7 +77,6 @@ module.exports = (config = {}) => {
                 if (/^\.md$|html$|htm$/i.test(path.extname(it))) {
                     let basename = path.basename(it, path.extname(it));
                     let mdInfos = getMdInfos(childPath);
-                    let index =
                     dirCtt.push({
                         itemName: basename,
                         type: 'file',
@@ -112,8 +111,6 @@ function getMdInfos(dir) {
     dir = decodeURIComponent(dir);
     let content = fs.readFileSync(dir).toString();
 
-    let indexInfo = /mdfile-index\s*:\s*(\d+)?\s*/.exec(content) || [];
-    let titleInfo = /mdfile-title\s*:\s*(\S+)?\s*-->/.exec(content) || [];
     if (ext === '.md') {
         titleArr =  /^\s*#+\s?([^#\r\n]+)/.exec(content) || [];
     }
@@ -121,9 +118,12 @@ function getMdInfos(dir) {
         titleArr = /<title>(.+?)<\/title>/.exec(content) || [];
     }
 
+    let regInfo = /<!--.*({.*}).*-->/.exec(content) || [];
+    let fileInfo = (new Function('return ' + regInfo[1]))() || {};
+
     return {
-        index: indexInfo[1] === undefined ? 10000 : +indexInfo[1],
+        index: fileInfo.index || 10000,
         // 优先自定义标题，其次取文档大标题
-        title: titleInfo[1] || titleArr[1] || ''
+        title: fileInfo.title || titleArr[1] || ''
     };
 }
