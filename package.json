@@ -1,6 +1,6 @@
 {
   "name": "ibook",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "markdown platform.",
   "main": "/src/index.js",
   "scripts": {
